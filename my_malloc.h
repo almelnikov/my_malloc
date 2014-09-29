@@ -1,7 +1,7 @@
 #ifndef __MY_MALLOC_H
 #define __MY_MALLOC_H
 
-#define HEADER_SIZE (sizeof(block_t*)+sizeof(block_t*)+sizeof(char))
+#define HEADER_SIZE (sizeof(block_t*)*2+sizeof(size_t)+sizeof(char))
 
 #include <stdio.h>
 #include <stdlib.h>
