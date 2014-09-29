@@ -12,7 +12,7 @@ int main()
 	strcpy(str2, "Hello allocation!\n");
 	printf("%s", str2);
 	//my_free(str);
-	//my_free(str2);
+	my_free(str2);
 	for (i = 0; i < 10; i++) {
 		arr[i] = my_malloc(sizeof(int));
 		*arr[i]	= i;
