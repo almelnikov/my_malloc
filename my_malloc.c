@@ -70,9 +70,10 @@ void my_free(void *ptr)
 	}
 	if (s->prev != NULL) {
 		if (s->prev->free == 0) {
-			s->size += s->prev->size + HEADER_SIZE;
-			s->prev = s->prev->prev;
-			s->prev->next = s;
+			s->prev->size += s->size + HEADER_SIZE;
+			s->prev->next = s->next;
+			if (s->next != NULL)
+				s->next->prev = s->prev;
 		}
 	}
 }
