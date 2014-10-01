@@ -12,7 +12,7 @@ typedef struct block_s block_t;
 
 block_t *base = NULL;
 
-block_t *extend_heap(block_t *last, size_t size)
+static block_t *extend_heap(block_t *last, size_t size)
 {
 	block_t *tmp;
 	
@@ -32,20 +32,42 @@ block_t *extend_heap(block_t *last, size_t size)
 	return tmp;
 }
 
+static int check_block_size(block_t *ptr, size_t size) {
+	block_t *newblock;
+
+	if ((ptr->free != 0) || (ptr->size < size))	
+		return 0;
+	ptr->free = 1;
+	if ((size + MINIMAL_BLOCK) <= ptr->size) {
+		newblock = (block_t*)((void*)ptr + HEADER_SIZE + size);
+		newblock->free = 0;
+		neblock->size = ptr-> size - HEADER_SIZE - size;
+		newblock->next = ptr->next;
+		newblock->prev = ptr;
+		ptr->next = newblock;
+	}
+	return 1;
+}
+
 void *my_malloc(size_t size)
 {
 	block_t *tmp, *last;
 	void *ptr;
+	int block_notfound = 0;
 	
 	if (base != NULL)
-		for (tmp = base; tmp->next != NULL; tmp = tmp->next);
+		for (tmp = base; tmp->next != NULL; tmp = tmp->next) {
+			
+		}
 	else
 		tmp = NULL;
-	last = extend_heap(tmp, size);
-	if (base == NULL)
-		base = last;
-	else
-		tmp->next = last;
+	if (block_notfound == 0) {
+		last = extend_heap(tmp, size);
+		if (base == NULL)
+			base = last;
+		else
+			tmp->next = last;
+	}
 	if (last != NULL)
 		return ((void*)last + HEADER_SIZE);
 	else
@@ -75,5 +97,14 @@ void my_free(void *ptr)
 			if (s->next != NULL)
 				s->next->prev = s->prev;
 		}
+	}
+}
+
+void my_malloc_print()
+{
+	block_t *ptr;
+	
+	for (ptr = base; ptr != NULL; ptr = ptr->next) {
+		printf("prev=%X next=%X size=%d\n", ptr->prev, ptr->next, ptr->size);
 	}
 }

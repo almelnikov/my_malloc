@@ -19,5 +19,7 @@ int main()
 	}
 	for (i = 0; i < 10; i++)
 		printf("%d\n", *arr[i]);
+	my_free(arr[5]);
+	my_malloc_print();
 	return 0;
 }
