@@ -3,6 +3,7 @@
 
 #define HEADER_SIZE (sizeof(block_t*)*2+sizeof(size_t)+sizeof(char))
 #define MINIMAL_BLOCK 32
+#define MINIMAL_PAYLOAD (MINIMAL_BLOCK-HEADER_SIZE)
 
 #include <stdio.h>
 #include <stdlib.h>
