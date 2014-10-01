@@ -42,6 +42,8 @@ static int test_free_block(block_t *ptr, size_t size) {
 	if ((ptr->free != 0) || (ptr->size < size))	
 		return 0;
 	ptr->free = 1;
+	if (size < MINIMAL_PAYLOAD)
+		size = MINIMAL_PAYLOAD;
 	if ((size + MINIMAL_BLOCK) <= ptr->size) {
 		newblock = (block_t*)((void*)ptr + HEADER_SIZE + size);
 		newblock->free = 0;
