@@ -60,7 +60,11 @@ int main(int argc, char *argv[])
 
 	for (i = 0; i < 100; i++) {
 		ptrs[i] = malloc(100 + i*100);
-		my_malloc_print();
+		//my_malloc_print();
 	}
+	free(ptrs[11]);
+	free(ptrs[12]);
+	free(ptrs[13]);
+	my_malloc_print();
 	return 0;
 }
