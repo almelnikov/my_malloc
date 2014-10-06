@@ -33,7 +33,7 @@ static block_t *extend_heap(block_t *last, size_t size)
 		tmp->prev = last;
 		tmp->size = newsize - HEADER_SIZE;
 		tmp->free = 1;
-		memset(((char *)tmp) + size, 0, size);
+		memset(((char *)tmp) + HEADER_SIZE, 0, size);
 		if (last != NULL)
 			last = tmp;
 	}

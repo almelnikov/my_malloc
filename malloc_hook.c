@@ -55,6 +55,12 @@ static void my_free_hook (void *ptr, const void *caller)
 
 int main(int argc, char *argv[])
 {
+	int *ptrs[100], *ptr;
+	int i;
 
+	for (i = 0; i < 100; i++) {
+		ptrs[i] = malloc(100 + i*100);
+		my_malloc_print();
+	}
 	return 0;
 }
