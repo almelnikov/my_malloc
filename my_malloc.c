@@ -127,7 +127,7 @@ void my_malloc_print()
 	block_t *ptr;
 	
 	for (ptr = base; ptr != NULL; ptr = ptr->next) {
-		printf("prev=%lX next=%lX size=%ld free=%d %d\n", ptr->prev, ptr->next,
-			    ptr->size, (int)ptr->free, (int)*ptr->payload);
+		printf("prev=%lX next=%lX size=%ld free=%d %d\n", (long)ptr->prev, 
+			   (long)ptr->next, ptr->size, (int)ptr->free, (int)*ptr->payload);
 	}
 }
