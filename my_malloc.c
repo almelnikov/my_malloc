@@ -5,7 +5,7 @@ struct block_s {
 	struct block_s *prev;
 	size_t size;
 	char free;
-	char payload[0];
+	long payload[0];
 };
 
 typedef struct block_s block_t;
@@ -16,12 +16,17 @@ static block_t *extend_heap(block_t *last, size_t size)
 {
 	block_t *tmp;
 	size_t newsize;
+	size_t allign_shift = 0;
 	
 	tmp = (block_t *)sbrk(0);
+	if (((size_t)tmp % MY_MALLOC_ALLIGN) != 0) {
+		allign_shift = 8 - ((size_t)tmp % MY_MALLOC_ALLIGN);
+		tmp = (block_t*)((void*)tmp + allign_shift);
+	}
 	newsize = HEADER_SIZE + size;
 	if (newsize < MINIMAL_BLOCK)
 		newsize = MINIMAL_BLOCK;
-	if (sbrk(HEADER_SIZE + size) == NULL)
+	if (sbrk(newsize + allign_shift) == NULL)
 		return NULL;
 	else {
 		tmp->next = NULL;
@@ -122,7 +127,7 @@ void my_malloc_print()
 	block_t *ptr;
 	
 	for (ptr = base; ptr != NULL; ptr = ptr->next) {
-		printf("prev=%X next=%X size=%d free=%d %d\n", ptr->prev, ptr->next,
+		printf("prev=%lX next=%lX size=%ld free=%d %d\n", ptr->prev, ptr->next,
 			    ptr->size, (int)ptr->free, (int)*ptr->payload);
 	}
 }
