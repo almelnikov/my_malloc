@@ -1,5 +1,7 @@
 #include "my_malloc.h"
 
+size_t max_heap_size = ULONG_MAX;
+
 struct block_s {
 	struct block_s *next;
 	struct block_s *prev;
@@ -26,6 +28,9 @@ static block_t *extend_heap(block_t *last, size_t size)
 	newsize = HEADER_SIZE + size;
 	if (newsize < MINIMAL_BLOCK)
 		newsize = MINIMAL_BLOCK;
+	if (base != NULL)
+		if (((size_t)tmp + newsize + allign_shift - (size_t)base) > max_heap_size)
+			return NULL;
 	if (sbrk(newsize + allign_shift) == NULL)
 		return NULL;
 	else {
@@ -127,7 +132,7 @@ void my_malloc_print()
 	block_t *ptr;
 	
 	for (ptr = base; ptr != NULL; ptr = ptr->next) {
-		printf("prev=%lX next=%lX size=%ld free=%d %d\n", (long)ptr->prev, 
-			   (long)ptr->next, ptr->size, (int)ptr->free, (int)*ptr->payload);
+		printf("prev=%p next=%p size=%ld free=%d %d\n", ptr->prev, 
+			   ptr->next, ptr->size, (int)ptr->free, (int)*ptr->payload);
 	}
 }

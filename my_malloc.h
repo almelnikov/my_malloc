@@ -10,6 +10,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <limits.h>
+
+extern size_t max_heap_size;
 
 void *my_malloc(size_t size);
 void my_free(void *ptr);
