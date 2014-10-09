@@ -22,12 +22,15 @@ static block_t *extend_heap(block_t *last, size_t size)
 	
 	tmp = (block_t *)sbrk(0);
 	if (((size_t)tmp % MY_MALLOC_ALLIGN) != 0) {
-		allign_shift = 8 - ((size_t)tmp % MY_MALLOC_ALLIGN);
+		allign_shift = MY_MALLOC_ALLIGN - ((size_t)tmp % MY_MALLOC_ALLIGN);
 		tmp = (block_t*)((void*)tmp + allign_shift);
 	}
 	newsize = HEADER_SIZE + size;
 	if (newsize < MINIMAL_BLOCK)
 		newsize = MINIMAL_BLOCK;
+	if ((newsize % MY_MALLOC_ALLIGN) != 0) {
+		newsize += MY_MALLOC_ALLIGN - (newsize % MY_MALLOC_ALLIGN);
+	}
 	if (base != NULL)
 		if (((size_t)tmp + newsize + allign_shift - (size_t)base) > max_heap_size)
 			return NULL;

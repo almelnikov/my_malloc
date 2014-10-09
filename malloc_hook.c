@@ -4,6 +4,11 @@
 #define MIN_BLOCK 91
 #define MAX_BLOCK (91*4)
 
+/*
+#define MIN_BLOCK 0
+#define MAX_BLOCK ULONG_MAX
+*/
+
 static void my_init_hook (void);
 static void *my_malloc_hook (size_t, const void *);
 static void my_free_hook (void*, const void *);
@@ -76,11 +81,11 @@ int main(int argc, char *argv[])
 	for (i = 0; i < 200; i++) {
 		ptrs[i] = malloc((MIN_BLOCK + i*10) % MAX_BLOCK);
 	}
-	free(ptrs[11]);
+	free(ptrs[13]);
 	ptrs[11] = NULL;
 	free(ptrs[12]);
 	ptrs[12] = NULL;
-	free(ptrs[13]);
+	free(ptrs[11]);
 	ptrs[13] = NULL;
 	my_malloc_print();
 	for (i = 0; i < 200; i++) {
