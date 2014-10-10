@@ -82,11 +82,11 @@ int main(int argc, char *argv[])
 		ptrs[i] = malloc((MIN_BLOCK + i*10) % MAX_BLOCK);
 	}
 	free(ptrs[13]);
-	ptrs[11] = NULL;
+	ptrs[13] = NULL;
 	free(ptrs[12]);
 	ptrs[12] = NULL;
 	free(ptrs[11]);
-	ptrs[13] = NULL;
+	ptrs[11] = NULL;
 	my_malloc_print();
 	for (i = 0; i < 200; i++) {
 		free(ptrs[i]);
